@@ -1,0 +1,5 @@
+com\advan\entity\Consumer.class
+com\advan\service\ConsumerService.class
+com\advan\controller\ConsumerController.class
+com\advan\com\advan\dao\ConsumerRepository.class
+com\advan\service\impl\ConsumerServiceImpl.class
