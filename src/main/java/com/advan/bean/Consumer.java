@@ -1,11 +1,7 @@
-package com.advan.entity;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+package com.advan.bean;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
 
 /**
  * Created by haiming.wang on 2018/9/17.
@@ -18,10 +14,9 @@ public class Consumer {
 
     private String name;
 
-    private String phone;
+    private String password;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date registerData;
+    private String phone;
 
     public String getId() {
         return id;
@@ -31,13 +26,12 @@ public class Consumer {
         return name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPassword() {
+        return password;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    public Date getRegisterData() {
-        return registerData;
+    public String getPhone() {
+        return phone;
     }
 
     public void setId(String id) {
@@ -48,12 +42,13 @@ public class Consumer {
         this.name = name;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public void setRegisterData(Date registerData) {
-        this.registerData = registerData;
-    }
 }
 

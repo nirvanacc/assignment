@@ -1,6 +1,6 @@
 package com.advan.service;
 
-import com.advan.entity.Consumer;
+import com.advan.bean.Consumer;
 
 import java.util.List;
 
@@ -10,5 +10,9 @@ import java.util.List;
 public interface ConsumerService {
 
     public List<Consumer> getAll();
+
+    public Consumer getById(String id);
+
+    public List<Consumer> getByName(String name);
 
 }
