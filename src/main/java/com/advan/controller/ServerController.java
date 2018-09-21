@@ -1,6 +1,5 @@
 package com.advan.controller;
 
-import com.advan.bean.Admin;
 import com.advan.bean.Consumer;
 import com.advan.bean.Server;
 import com.advan.bean.vo.PageVO;
@@ -9,7 +8,6 @@ import com.advan.dao.AdminDAO;
 import com.advan.dao.ConsumerDAO;
 import com.advan.dao.ServerDAO;
 import com.advan.service.ServerService;
-import com.advan.service.impl.ServerServiceImpl;
 import com.advan.utils.result.Result;
 import com.advan.utils.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +48,7 @@ public class ServerController {
         PageVO pageVO = new PageVO();
         Page<Server> serverPage = serverService.pageAll(page, size);
         pageVO.setContent(toVO(serverPage.getContent()));
-        pageVO.setFirst(serverPage.isFirst());
-        pageVO.setLast(serverPage.isLast());
         pageVO.setTotalElements(serverPage.getTotalElements());
-        pageVO.setSize(serverPage.getSize());
-        pageVO.setTotalPages(serverPage.getTotalPages());
-        pageVO.setNumber(serverPage.getNumber());
-        pageVO.setNumberOfElements(serverPage.getNumberOfElements());
         return ResultUtil.success(pageVO);
     }
 
@@ -149,8 +141,8 @@ public class ServerController {
     @GetMapping("/pageByConsumer")
     public Result pageMyServers(String id, Integer page, Integer size){
         PageVO pageVO = new PageVO();
-        List<ServerVO> serverVOList = toVO(serverDAO.pageServersByConsumer(id, (page-1)*size, size));
-        pageVO.setContent(serverVOList);
+        List<Server> serverList = serverDAO.pageServersByConsumer(id, (page-1)*size, size);
+        pageVO.setContent(toVO(serverList));
         pageVO.setTotalElements(serverDAO.pageServersByConsumerTotal(id));
         return ResultUtil.success(pageVO);
     }
