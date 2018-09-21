@@ -14,16 +14,4 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService{
 
-    @Autowired
-    AdminDAO adminDAO;
-
-    @Override
-    public Admin getById(String id) {
-        return adminDAO.findOne(id);
-    }
-
-    @Override
-    public List<Admin> getByName(String name) {
-        return adminDAO.findByName(name);
-    }
 }

@@ -9,8 +9,4 @@ import java.util.List;
  */
 public interface AdminService {
 
-    public Admin getById(String id);
-
-    public List<Admin> getByName(String name);
-
 }

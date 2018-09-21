@@ -1,7 +1,9 @@
 package com.advan.service;
 
 import com.advan.bean.Server;
+import com.advan.bean.vo.PageVO;
 import com.advan.bean.vo.ServerVO;
+import org.springframework.data.domain.Page;
 
 import javax.xml.ws.Service;
 import java.util.List;
@@ -11,12 +13,6 @@ import java.util.List;
  */
 public interface ServerService {
 
-//    public List<Server> getAll();
-//
-//    public Server getById(String id);
-//
-//    public void addOrUpdate(Server server);
-//
-//    public void delete(String id);
+    public Page<Server> pageAll(Integer page, Integer size);
 
 }

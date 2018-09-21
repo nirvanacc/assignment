@@ -1,6 +1,7 @@
 package com.advan.controller;
 
 import com.advan.bean.Admin;
+import com.advan.dao.AdminDAO;
 import com.advan.service.AdminService;
 import com.advan.utils.result.Result;
 import com.advan.utils.result.ResultUtil;
@@ -17,7 +18,7 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    AdminService adminService;
+    AdminDAO adminDAO;
 
     /**
      * 管理员登录
@@ -27,7 +28,7 @@ public class AdminController {
     @PostMapping("/login")
     public Result login(@RequestBody Admin admin){ // 通过前台验证，admin必有nameh和password
         Result result = new Result();
-        List<Admin> adminList = adminService.getByName(admin.getName());
+        List<Admin> adminList = adminDAO.findByName(admin.getName());
         if(adminList == null || adminList.size() == 0) {
             result =  ResultUtil.error(101, "用户名不存在");
         } else {
