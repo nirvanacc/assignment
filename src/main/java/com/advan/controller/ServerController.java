@@ -76,6 +76,19 @@ public class ServerController {
     }
 
     /**
+     * 归还服务器
+     * @param server
+     * @return
+     */
+    @PostMapping("/return")
+    public Result returnServer(@RequestBody Server server){
+        server.setIsAllocated(0);
+        server.setOwner(null);
+        serverDAO.save(server);
+        return ResultUtil.success();
+    }
+
+    /**
      * 通过id删除服务器
      * @param id
      * @return
@@ -136,7 +149,7 @@ public class ServerController {
     @GetMapping("/pageByConsumer")
     public Result pageMyServers(String id, Integer page, Integer size){
         PageVO pageVO = new PageVO();
-        List<ServerVO> serverVOList = toVO(serverDAO.pageServersByConsumer(id, page, size));
+        List<ServerVO> serverVOList = toVO(serverDAO.pageServersByConsumer(id, (page-1)*size, size));
         pageVO.setContent(serverVOList);
         pageVO.setTotalElements(serverDAO.pageServersByConsumerTotal(id));
         return ResultUtil.success(pageVO);
