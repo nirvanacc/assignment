@@ -1,12 +1,14 @@
 package com.advan.controller;
 
+import com.advan.bean.Message;
 import com.advan.dao.MessageDAO;
 import com.advan.utils.result.Result;
 import com.advan.utils.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by haiming.wang on 2018/9/21.
@@ -26,6 +28,14 @@ public class MessageController {
     @GetMapping("/delete")
     public Result delete(String id){
         messageDAO.delete(id);
+        return ResultUtil.success();
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody Message message){
+        message.setId(UUID.randomUUID().toString());
+        message.setPostDate(new Date());
+        messageDAO.save(message);
         return ResultUtil.success();
     }
 

@@ -17,6 +17,8 @@ public interface ServerDAO extends JpaRepository<Server, String> {
 
     public List<Server> findByOwner(String consumerId);
 
+    public List<Server> findByIsAllocated(Integer para);
+
     @Query(value = "SELECT * FROM \"server\" WHERE \"owner\" = ?1 LIMIT ?3 OFFSET ?2", nativeQuery = true)
     public List<Server> pageServersByConsumer(String id, Integer start, Integer size);
 

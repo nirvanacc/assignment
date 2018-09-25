@@ -8,6 +8,7 @@ import com.advan.bean.vo.RequestInfoVO;
 import com.advan.bean.vo.ServerVO;
 import com.advan.dao.AdminDAO;
 import com.advan.dao.ConsumerDAO;
+import com.advan.dao.RequestInfoDAO;
 import com.advan.service.RequestInfoService;
 import com.advan.utils.result.Result;
 import com.advan.utils.result.ResultUtil;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +29,8 @@ public class RequestInfoController {
 
     @Autowired
     RequestInfoService requestInfoService;
+    @Autowired
+    RequestInfoDAO requestInfoDAO;
     @Autowired
     ConsumerDAO consumerDAO;
     @Autowired
@@ -50,6 +54,13 @@ public class RequestInfoController {
     @PostMapping("/add")
     public Result add(@RequestBody RequestInfo requestInfo){
         requestInfoService.add(requestInfo);
+        return ResultUtil.success();
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody RequestInfo requestInfo){
+        requestInfo.setOperateDate(new Date());
+        requestInfoDAO.save(requestInfo);
         return ResultUtil.success();
     }
 

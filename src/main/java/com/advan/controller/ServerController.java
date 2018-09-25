@@ -147,6 +147,22 @@ public class ServerController {
         return ResultUtil.success(pageVO);
     }
 
+    @GetMapping("/usable")
+    public Result getUsableServers(){
+        return ResultUtil.success(toVO(serverDAO.findByIsAllocated(0)));
+    }
+
+    @PostMapping("/addOwner")
+    public Result addOwner(@RequestBody List<Server> serverList){
+        for(Server item:serverList){
+            item.setIsAllocated(1);
+            item.setModifiedDate(new Date());
+
+            serverDAO.save(item);
+        }
+        return ResultUtil.success();
+    }
+
     /**
      * 原始类转换为vo类
      * @param serverList
