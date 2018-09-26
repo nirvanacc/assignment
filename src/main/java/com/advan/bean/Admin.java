@@ -2,6 +2,7 @@ package com.advan.bean;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * Created by haiming.wang on 2018/9/18.

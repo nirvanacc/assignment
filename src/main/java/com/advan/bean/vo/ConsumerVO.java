@@ -1,19 +1,17 @@
-package com.advan.bean;
+package com.advan.bean.vo;
 
+import com.advan.bean.Server;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by haiming.wang on 2018/9/17.
+ * Created by haiming.wang on 2018/9/25.
  */
-@Entity
-public class Consumer {
+public class ConsumerVO {
 
-    @Id
     private String id;
 
     private String name;
@@ -26,7 +24,11 @@ public class Consumer {
 
     private Long serverNum;
 
+    private List<ServerVO> serverVOList;
+
     private String modifiedBy;
+
+    private String modifiedByText;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modifiedDate;
@@ -57,6 +59,10 @@ public class Consumer {
 
     public String getModifiedBy() {
         return modifiedBy;
+    }
+
+    public String getModifiedByText() {
+        return modifiedByText;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
@@ -92,8 +98,19 @@ public class Consumer {
         this.modifiedBy = modifiedBy;
     }
 
+    public void setModifiedByText(String modifiedByText) {
+        this.modifiedByText = modifiedByText;
+    }
+
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
-}
 
+    public List<ServerVO> getServerVOList() {
+        return serverVOList;
+    }
+
+    public void setServerVOList(List<ServerVO> serverVOList) {
+        this.serverVOList = serverVOList;
+    }
+}

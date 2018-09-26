@@ -81,6 +81,21 @@ public class ServerController {
     }
 
     /**
+     * 批量归还服务器
+     * @param serverList
+     * @return
+     */
+    @PostMapping("/returnBatch")
+    public Result returnBatch(@RequestBody List<Server> serverList){
+        for(Server item:serverList){
+            item.setIsAllocated(0);
+            item.setOwner(null);
+            serverDAO.save(item);
+        }
+        return ResultUtil.success();
+    }
+
+    /**
      * 通过id删除服务器
      * @param id
      * @return
@@ -157,7 +172,6 @@ public class ServerController {
         for(Server item:serverList){
             item.setIsAllocated(1);
             item.setModifiedDate(new Date());
-
             serverDAO.save(item);
         }
         return ResultUtil.success();

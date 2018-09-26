@@ -1,15 +1,25 @@
 package com.advan.controller;
 
+import com.advan.bean.Admin;
 import com.advan.bean.Consumer;
+import com.advan.bean.Server;
+import com.advan.bean.vo.ConsumerVO;
+import com.advan.bean.vo.PageVO;
+import com.advan.bean.vo.ServerVO;
+import com.advan.dao.AdminDAO;
 import com.advan.dao.ConsumerDAO;
 import com.advan.dao.ServerDAO;
 import com.advan.service.ConsumerService;
 import com.advan.utils.result.Result;
 import com.advan.utils.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by haiming.wang on 2018/9/17.
@@ -20,6 +30,14 @@ public class ConsumerController {
 
     @Autowired
     ConsumerDAO consumerDAO;
+    @Autowired
+    ServerDAO serverDAO;
+    @Autowired
+    AdminDAO adminDAO;
+    @Autowired
+    ConsumerService consumerService;
+    @Autowired
+    ServerController serverController;
 
     /**
      * 普通用户登录
@@ -53,6 +71,59 @@ public class ConsumerController {
     public Result fuzzy(String para){
         para = "%"+para+"%";
         return ResultUtil.success(consumerDAO.findByNameLike(para));
+    }
+
+    @GetMapping("/pageAll")
+    public Result getAll(Integer page, Integer size){
+        Page<Consumer> data = consumerService.pageAll(page, size);
+        for(Consumer item:data.getContent()){
+            item.setServerNum(serverDAO.pageServersByConsumerTotal(item.getId()));
+        }
+        PageVO pageVO = new PageVO();
+        pageVO.setContent(toVO(data.getContent()));
+        pageVO.setTotalElements(data.getTotalElements());
+        return ResultUtil.success(pageVO);
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody Consumer consumer){
+        if(consumer.getId() == null){
+            consumer.setId(UUID.randomUUID().toString());
+            consumer.setPassword("123");
+        }
+        consumer.setModifiedDate(new Date());
+        consumerDAO.save(consumer);
+        return ResultUtil.success();
+    }
+
+    @GetMapping("/delete")
+    public Result delete(String id){
+        consumerDAO.delete(id);
+        return ResultUtil.success();
+    }
+
+    public List<ConsumerVO> toVO(List<Consumer> consumerList){
+        List<ConsumerVO> consumerVOList = new ArrayList<>();
+        for(Consumer item:consumerList){
+            ConsumerVO consumerVO = new ConsumerVO();
+            consumerVO.setId(item.getId());
+            consumerVO.setName(item.getName());
+            consumerVO.setPassword(item.getPassword());
+            consumerVO.setPhone(item.getPhone());
+            consumerVO.setEmail(item.getEmail());
+            consumerVO.setServerNum(item.getServerNum());
+
+            List<Server> serverList = serverDAO.findByOwner(item.getId());
+            List<ServerVO> serverVOList = serverController.toVO(serverList);
+            consumerVO.setServerVOList(serverVOList);
+
+            consumerVO.setModifiedBy(item.getModifiedBy());
+            consumerVO.setModifiedByText(adminDAO.findOne(item.getModifiedBy()).getName());
+
+            consumerVO.setModifiedDate(item.getModifiedDate());
+            consumerVOList.add(consumerVO);
+        }
+        return consumerVOList;
     }
 
 

@@ -42,12 +42,19 @@ public class RequestInfoController {
      * @param size
      * @return
      */
-    @GetMapping("/pageAll")
-    public Result pageAllRequest(Integer page, Integer size){
+    @GetMapping("/pageUnsloved")
+    public Result pageUnsloved(Integer page, Integer size){
         PageVO pageVO = new PageVO();
-        Page<RequestInfo> requestInfoPage = requestInfoService.pageAll(page, size);
-        pageVO.setContent(toVO(requestInfoPage.getContent()));
-        pageVO.setTotalElements(requestInfoPage.getTotalElements());
+        pageVO.setContent(toVO(requestInfoDAO.pageRequestUnsolved((page-1)*size, size)));
+        pageVO.setTotalElements(requestInfoDAO.unsolvedTotal());
+        return ResultUtil.success(pageVO);
+    }
+
+    @GetMapping("/pageHis")
+    public Result pageHis(Integer page, Integer size){
+        PageVO pageVO = new PageVO();
+        pageVO.setContent(toVO(requestInfoDAO.pageHisRequest((page-1)*size, size)));
+        pageVO.setTotalElements(requestInfoDAO.hisTotal());
         return ResultUtil.success(pageVO);
     }
 
@@ -61,6 +68,12 @@ public class RequestInfoController {
     public Result update(@RequestBody RequestInfo requestInfo){
         requestInfo.setOperateDate(new Date());
         requestInfoDAO.save(requestInfo);
+        return ResultUtil.success();
+    }
+
+    @GetMapping("/delete")
+    public Result delete(String id){
+        requestInfoDAO.delete(id);
         return ResultUtil.success();
     }
 
