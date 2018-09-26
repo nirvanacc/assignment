@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by haiming.wang on 2018/9/18.
@@ -41,6 +42,18 @@ public class AdminController {
             }
         }
         return result;
+    }
+
+    /**
+     * 添加管理员
+     * @param admin
+     * @return
+     */
+    @PostMapping("/add")
+    public Result add(@RequestBody Admin admin){
+        admin.setId(UUID.randomUUID().toString());
+        adminDAO.save(admin);
+        return ResultUtil.success();
     }
 
 

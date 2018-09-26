@@ -73,6 +73,12 @@ public class ConsumerController {
         return ResultUtil.success(consumerDAO.findByNameLike(para));
     }
 
+    /**
+     * 分页查询用户
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("/pageAll")
     public Result getAll(Integer page, Integer size){
         Page<Consumer> data = consumerService.pageAll(page, size);
@@ -85,6 +91,11 @@ public class ConsumerController {
         return ResultUtil.success(pageVO);
     }
 
+    /**
+     * 添加/更新用户信息
+     * @param consumer
+     * @return
+     */
     @PostMapping("/update")
     public Result update(@RequestBody Consumer consumer){
         if(consumer.getId() == null){
@@ -96,12 +107,22 @@ public class ConsumerController {
         return ResultUtil.success();
     }
 
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
     @GetMapping("/delete")
     public Result delete(String id){
         consumerDAO.delete(id);
         return ResultUtil.success();
     }
 
+    /**
+     * 类型转换
+     * @param consumerList
+     * @return
+     */
     public List<ConsumerVO> toVO(List<Consumer> consumerList){
         List<ConsumerVO> consumerVOList = new ArrayList<>();
         for(Consumer item:consumerList){

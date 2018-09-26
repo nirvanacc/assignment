@@ -29,16 +29,7 @@ public class ServerController {
     @Autowired ServerService serverService;
 
     /**
-     * 获取所有服务器信息
-     * @return
-     */
-    @GetMapping("/list")
-    public Result getAll(){
-        return ResultUtil.success(toVO(serverDAO.findAll()));
-    }
-
-    /**
-     * 所有服务器分页
+     * 所有设备分页
      * @param page
      * @param size
      * @return
@@ -53,7 +44,7 @@ public class ServerController {
     }
 
     /**
-     * 添加/更新服务器信息
+     * 添加/更新设备信息
      * @param server
      * @return
      */
@@ -68,7 +59,7 @@ public class ServerController {
     }
 
     /**
-     * 归还服务器
+     * 归还设备
      * @param server
      * @return
      */
@@ -81,7 +72,7 @@ public class ServerController {
     }
 
     /**
-     * 批量归还服务器
+     * 批量归还设备
      * @param serverList
      * @return
      */
@@ -96,7 +87,7 @@ public class ServerController {
     }
 
     /**
-     * 通过id删除服务器
+     * 删除设备
      * @param id
      * @return
      */
@@ -107,7 +98,7 @@ public class ServerController {
     }
 
     /**
-     * 批量删除服务器
+     * 批量删除设备
      * @param serverVOList
      * @return
      */
@@ -120,7 +111,7 @@ public class ServerController {
     }
 
     /**
-     * 服务器多字段模糊查询
+     * 设备多字段模糊查询
      * @param para
      * @return
      */
@@ -147,7 +138,7 @@ public class ServerController {
     }
 
     /**
-     * 用户条件的分页
+     * 分页获取个人设备
      * @param id
      * @param page
      * @param size
@@ -162,11 +153,20 @@ public class ServerController {
         return ResultUtil.success(pageVO);
     }
 
+    /**
+     * 获取闲置设备
+     * @return
+     */
     @GetMapping("/usable")
     public Result getUsableServers(){
         return ResultUtil.success(toVO(serverDAO.findByIsAllocated(0)));
     }
 
+    /**
+     * 为设备添加所有人
+     * @param serverList
+     * @return
+     */
     @PostMapping("/addOwner")
     public Result addOwner(@RequestBody List<Server> serverList){
         for(Server item:serverList){

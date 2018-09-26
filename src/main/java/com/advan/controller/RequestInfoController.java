@@ -1,11 +1,8 @@
 package com.advan.controller;
 
-import com.advan.bean.Admin;
 import com.advan.bean.RequestInfo;
-import com.advan.bean.Server;
 import com.advan.bean.vo.PageVO;
 import com.advan.bean.vo.RequestInfoVO;
-import com.advan.bean.vo.ServerVO;
 import com.advan.dao.AdminDAO;
 import com.advan.dao.ConsumerDAO;
 import com.advan.dao.RequestInfoDAO;
@@ -13,7 +10,6 @@ import com.advan.service.RequestInfoService;
 import com.advan.utils.result.Result;
 import com.advan.utils.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -37,7 +33,7 @@ public class RequestInfoController {
     AdminDAO adminDAO;
 
     /**
-     * 所有服务器分页
+     * 未处理请求的分页查询
      * @param page
      * @param size
      * @return
@@ -50,6 +46,12 @@ public class RequestInfoController {
         return ResultUtil.success(pageVO);
     }
 
+    /**
+     * 获取历史申请
+     * @param page
+     * @param size
+     * @return
+     */
     @GetMapping("/pageHis")
     public Result pageHis(Integer page, Integer size){
         PageVO pageVO = new PageVO();
@@ -58,12 +60,22 @@ public class RequestInfoController {
         return ResultUtil.success(pageVO);
     }
 
+    /**
+     * 用户发起申请
+     * @param requestInfo
+     * @return
+     */
     @PostMapping("/add")
     public Result add(@RequestBody RequestInfo requestInfo){
         requestInfoService.add(requestInfo);
         return ResultUtil.success();
     }
 
+    /**
+     * 管理员处理请求
+     * @param requestInfo
+     * @return
+     */
     @PostMapping("/update")
     public Result update(@RequestBody RequestInfo requestInfo){
         requestInfo.setOperateDate(new Date());
@@ -71,6 +83,11 @@ public class RequestInfoController {
         return ResultUtil.success();
     }
 
+    /**
+     * 删除历史请求（删除按钮只在历史申请下暴露）
+     * @param id
+     * @return
+     */
     @GetMapping("/delete")
     public Result delete(String id){
         requestInfoDAO.delete(id);
